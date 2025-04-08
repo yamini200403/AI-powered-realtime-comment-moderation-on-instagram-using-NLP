@@ -1,0 +1,197 @@
+.people {
+    font-family: Arial, sans-serif;
+    padding: 24px; /* Reduced padding */
+    background-color: #fff;
+    max-width: 700px; /* Slightly reduced max-width */
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 12px; /* Slightly reduced border radius */
+  }
+  
+  .people__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px; /* Reduced padding */
+  }
+  
+  .people__profileContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .people__profileImageContainer {
+    position: relative;
+    width: 120px; /* Slightly reduced width */
+    height: 120px; /* Slightly reduced height */
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ddd;
+    margin-right: 16px; /* Reduced margin */
+  }
+  
+  .people__profileImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .people__profileAddIcon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #0095f6;
+    color: #fff;
+    font-size: 18px; /* Reduced font size */
+    font-weight: bold;
+    width: 28px; /* Slightly smaller size */
+    height: 28px; /* Slightly smaller size */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+  
+  .people__username {
+    font-weight: bold;
+    font-size: 22px; /* Slightly reduced font size */
+    margin: 0;
+  }
+  
+  .people__settingsContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .people__settingsIcon {
+    background: none;
+    border: none;
+    font-size: 28px; /* Reduced icon size */
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .people__stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 24px 0; /* Slightly reduced margin */
+    text-align: center;
+  }
+  
+  .people__stats h3 {
+    margin: 0;
+    font-size: 18px; /* Reduced font size */
+    font-weight: bold;
+  }
+  
+  .people__stats p {
+    margin: 0;
+    font-size: 16px; /* Reduced font size */
+    color: #555;
+  }
+  
+  .people__buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px; /* Slightly reduced gap */
+    margin-bottom: 24px; /* Reduced margin */
+  }
+  
+  .people__buttons button {
+    flex: 1;
+    padding: 12px; /* Reduced padding */
+    font-size: 16px; /* Reduced font size */
+    border: 1px solid #ddd;
+    border-radius: 6px; /* Slightly reduced border radius */
+    cursor: pointer;
+    background-color: #fff;
+    color: #555;
+  }
+  
+  .editProfileButton {
+    font-weight: bold;
+  }
+  
+  .shareProfileButton {
+    color: #0095f6;
+    border-color: #0095f6;
+  }
+  
+  .addFriendButton {
+    font-size: 22px; /* Reduced font size */
+    font-weight: bold;
+  }
+  
+  .people__highlights {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px; /* Reduced margin */
+    gap: 24px; /* Slightly reduced gap */
+    overflow-x: auto;
+  }
+  
+  .highlight {
+    text-align: center;
+    flex: 0 0 110px; /* Reduced flex basis */
+  }
+  
+  .highlight__image {
+    width: 90px; /* Slightly reduced image size */
+    height: 90px; /* Slightly reduced image size */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    margin-bottom: 8px; /* Reduced margin */
+  }
+  
+  .highlight__title {
+    font-size: 14px; /* Slightly reduced font size */
+    color: #555;
+  }
+  
+  .people__gallery {
+    text-align: center;
+    margin-top: 24px; /* Reduced margin */
+    font-size: 16px; /* Reduced font size */
+    color: #555;
+  }
+  
+  .createPostLink {
+    display: block;
+    margin-top: 12px; /* Reduced margin */
+    font-size: 16px; /* Reduced font size */
+    color: #0095f6;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .createPostLink:hover {
+    text-decoration: underline;
+  }
+  .settingsMenu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 100;
+  }
+  
+  .settingsMenu p {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .settingsMenu p:last-child {
+    border-bottom: none;
+  }
+  
+  .settingsMenu p:hover {
+    background-color: #f0f0f0;
+  }
+  

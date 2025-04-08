@@ -1,0 +1,212 @@
+/* Post.css */
+
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
+  transition: background-color 0.3s ease;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+.post {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Post Upload Section */
+.post__upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.post__upload h2 {
+  margin-bottom: 10px;
+}
+
+.post__upload input[type="file"] {
+  margin-bottom: 10px;
+}
+
+.post__upload Button {
+  margin-top: 10px;
+}
+
+/* Post Feed */
+.post__feed {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post__card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.post__card.dark-mode {
+  background-color: #2c2c2c;
+}
+
+.post__usernameContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post__username {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.post__username.dark-mode {
+  color: white;
+}
+
+.post__image {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.post__caption {
+  margin-top: 10px;
+}
+
+.post__caption h3 {
+  color: #333;
+}
+
+.post__caption.dark-mode h3 {
+  color: white;
+}
+
+/* Actions */
+.post__actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.post__actions IconButton {
+  color: #333;
+}
+
+.post__actions.dark-mode IconButton {
+  color: white;
+}
+
+/* Comments Section */
+.post__comments {
+  margin-top: 20px;
+}
+
+.post__comment {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.post__comment p {
+  margin: 0;
+}
+
+.post__commentActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.post__commentInput {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.post__commentInput Button {
+  height: 40px;
+}
+
+/* Bottom Navigation */
+.MuiBottomNavigation-root {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0;
+  height: 60px;
+}
+
+.MuiBottomNavigation-root.dark-mode {
+  background-color: #121212;
+}
+
+.MuiBottomNavigationAction-root {
+  color: #333;
+}
+
+.MuiBottomNavigationAction-root.dark-mode {
+  color: white;
+}
+
+/* Bottom Navigation Alignment Fix */
+.MuiBottomNavigationAction-root {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MuiBottomNavigationAction-root svg {
+  font-size: 28px;
+  color: #333;
+}
+
+.MuiBottomNavigationAction-root.dark-mode svg {
+  color: white;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  color: #333;
+  cursor: pointer;
+}
+
+.dark-mode-toggle.dark-mode {
+  color: white;
+}
+
+/* Follow Button */
+.post__followButton {
+  font-size: 14px;
+  padding: 5px 15px;
+}
+
