@@ -1,0 +1,133 @@
+import os
+import torch
+import numpy as np
+from datasets import load_dataset
+from transformers import (AutoTokenizer, DistilBertForSequenceClassification, TrainingArguments, Trainer,
+                          EarlyStoppingCallback, DistilBertConfig)
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+import datasets
+from torch.nn import CrossEntropyLoss
+
+# Load dataset from CSV
+dataset = load_dataset("csv", data_files={
+    "train": "/content/train1_balanced.csv",
+    "test": "/content/test1_balanced.csv"
+})
+
+# Load tokenizer from DistilBERT
+tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
+
+# Preprocessing function
+def preprocess_function(examples):
+    tokenized = tokenizer(examples["text"], truncation=True, padding="max_length", max_length=256)  # Reduced max_length
+    tokenized["labels"] = [int(label) for label in examples["category"]]  # Convert labels to int
+    return tokenized
+
+# Apply preprocessing
+dataset = dataset.map(preprocess_function, batched=True)
+
+# Remove old text & category columns
+dataset = dataset.remove_columns(["text", "category"])
+
+# Set dataset format for PyTorch
+dataset.set_format("torch")
+
+# Load DistilBERT configuration and modify dropout
+config = DistilBertConfig.from_pretrained("distilbert-base-uncased", num_labels=2)
+config.hidden_dropout_prob = 0.5  # Increased dropout
+config.attention_probs_dropout_prob = 0.5
+
+# Load DistilBERT model with modified config
+model = DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased", config=config)
+
+# Define training arguments
+training_args = TrainingArguments(
+    output_dir="./results",
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    learning_rate=1e-5,  # Lowered LR to prevent quick convergence
+    per_device_train_batch_size=16,  # Reduced batch size to introduce noise
+    per_device_eval_batch_size=16,
+    num_train_epochs=2,  # Reduced epochs to avoid memorization
+    weight_decay=0.1,  # Stronger weight decay for regularization
+    lr_scheduler_type="linear",  # Using linear decay instead of cosine
+    warmup_ratio=0.1,
+    logging_dir="./logs",
+    logging_steps=50,
+    load_best_model_at_end=True,
+)
+
+# Define compute_metrics function
+def compute_metrics(pred):
+    logits, labels = pred
+    predictions = np.argmax(logits, axis=1)
+    accuracy = accuracy_score(labels, predictions)
+    precision, recall, f1, _ = precision_recall_fscore_support(labels, predictions, average="binary")
+    return {"accuracy": accuracy, "precision": precision, "recall": recall, "f1": f1}
+
+# Define loss function with label smoothing
+loss_fn = CrossEntropyLoss(label_smoothing=0.2)  # Increased label smoothing
+
+# Initialize Trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=dataset["train"],
+    eval_dataset=dataset["test"],
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics,
+    callbacks=[EarlyStoppingCallback(early_stopping_patience=1)],  # Stops earlier if overfitting
+)
+
+# Train the model
+print("Training the model...")
+trainer.train()
+
+# Save the trained model and tokenizer
+model.save_pretrained("./tanglish_offensive_classifier")
+tokenizer.save_pretrained("./tanglish_offensive_classifier")
+
+# Define function to classify text
+def classify_text(text):
+    # Load trained model & tokenizer
+    model = DistilBertForSequenceClassification.from_pretrained("./tanglish_offensive_classifier")
+    tokenizer = AutoTokenizer.from_pretrained("./tanglish_offensive_classifier")
+
+    # Tokenize input text
+    inputs = tokenizer(text, truncation=True, padding="max_length", max_length=256, return_tensors="pt")
+
+    # Predict with model
+    with torch.no_grad():
+        outputs = model(inputs["input_ids"], attention_mask=inputs["attention_mask"])
+        logits = outputs.logits
+        prediction = torch.argmax(logits, dim=1).item()
+
+    return "Offensive" if prediction == 0 else "Non-Offensive"
+
+# Main function to interact with the user
+def main():
+    print("Welcome to the Offensive Comment Classifier!")
+    while True:
+        # Prompt user for input
+        user_input = input("\nEnter a comment (or type 'exit' to quit): ").strip()
+
+        # Exit condition
+        if user_input.lower() == "exit":
+            print("Thank you for using the Offensive Comment Classifier. Goodbye!")
+            break
+
+        # Classify the comment
+        result = classify_text(user_input)
+
+        # Display the result
+        if result == "Offensive":
+            print(f"\nWarning: The comment '{user_input}' is classified as OFFENSIVE.")
+            print("Please refrain from using such language.")
+        else:
+            print(f"\nThe comment '{user_input}' is classified as NON-OFFENSIVE.")
+            print("This comment is safe to display.")
+
+# Run the script
+if __name__ == "__main__":
+    main()
+
